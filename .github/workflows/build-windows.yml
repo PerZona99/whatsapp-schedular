@@ -1,0 +1,36 @@
+name: Build Windows installer
+
+on:
+  workflow_dispatch: {}
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (and download Chromium into the project)
+        # PUPPETEER_CACHE_DIR makes puppeteer download its Chromium into
+        # ./pptr-cache instead of the user profile, so electron-builder's
+        # "extraResources" step (in package.json) can bundle it into the
+        # installer.
+        run: npm ci
+        env:
+          PUPPETEER_CACHE_DIR: ${{ github.workspace }}/pptr-cache
+
+      - name: Build the installer
+        run: npm run dist
+
+      - name: Upload installer as a build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dispatch-Windows-Installer
+          path: dist/*.exe

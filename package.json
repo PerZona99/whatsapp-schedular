@@ -1,0 +1,44 @@
+{
+  "name": "dispatch-whatsapp-scheduler",
+  "version": "1.0.0",
+  "description": "Desktop + web dashboard for scheduling WhatsApp messages, built on whatsapp-web.js",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "qrcode": "^1.5.3",
+    "whatsapp-web.js": "^1.34.7"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.dispatch.whatsapp-scheduler",
+    "productName": "Dispatch",
+    "files": [
+      "electron-main.js",
+      "server.js",
+      "public/**/*",
+      "node_modules/**/*",
+      "!node_modules/puppeteer/.local-chromium/**/*"
+    ],
+    "extraResources": [
+      { "from": "pptr-cache", "to": "pptr-cache" }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}

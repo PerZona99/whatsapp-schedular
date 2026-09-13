@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispatch — WhatsApp Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="connect-screen" class="connect-screen">
+  <div class="connect-card">
+    <p class="eyebrow">Dispatch</p>
+    <h1>Link a device to begin</h1>
+    <p class="connect-copy">Scan this with WhatsApp on your phone —
+      <span class="fog">Settings → Linked devices → Link a device.</span></p>
+    <div id="qr-holder" class="qr-holder">
+      <p class="qr-waiting">Waking up WhatsApp Web…</p>
+    </div>
+    <p id="connect-error" class="connect-error"></p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Dispatch</span>
+      <span class="brand-sub">whatsapp scheduler</span>
+    </div>
+    <div class="account-pill">
+      <span class="dot dot-live"></span>
+      <span id="account-name">—</span>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <section class="compose" aria-label="Schedule a new message">
+      <h2>New message</h2>
+
+      <form id="compose-form">
+
+        <div class="field-row">
+          <label class="segmented">
+            <input type="radio" name="targetType" value="person" checked>
+            <span>Person</span>
+          </label>
+          <label class="segmented">
+            <input type="radio" name="targetType" value="group">
+            <span>Group</span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label" id="to-label">Phone number</span>
+          <input type="text" name="to" id="to-input" placeholder="94771234567" required>
+          <span class="field-hint" id="to-hint">Country code + number, digits only, no plus sign.</span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Message</span>
+          <textarea name="message" rows="3" placeholder="What do you want to say?"></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Attach an image (optional)</span>
+          <div class="image-row">
+            <input type="file" name="imageFile" id="image-file" accept="image/*">
+            <span class="or">or</span>
+            <input type="url" name="imageUrl" id="image-url" placeholder="https://…">
+          </div>
+        </label>
+
+        <div class="field-pair">
+          <label class="field">
+            <span class="field-label">Send at</span>
+            <input type="datetime-local" name="datetime" required>
+          </label>
+          <label class="field">
+            <span class="field-label">Repeat</span>
+            <select name="recurring">
+              <option value="none">Doesn't repeat</option>
+              <option value="daily">Every day</option>
+              <option value="weekly">Every week</option>
+            </select>
+          </label>
+        </div>
+
+        <p id="form-error" class="form-error"></p>
+
+        <button type="submit" class="btn-primary">Add to queue</button>
+      </form>
+
+      <button id="show-groups" class="btn-ghost">Look up a group ID</button>
+    </section>
+
+    <section class="queue" aria-label="Scheduled messages">
+      <div class="queue-header">
+        <h2>Queue</h2>
+        <span id="queue-count" class="queue-count"></span>
+      </div>
+      <div id="queue-list" class="queue-list">
+        <p class="empty">Nothing scheduled yet — add a message on the left.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="groups-overlay" class="overlay hidden">
+  <div class="overlay-card">
+    <div class="overlay-head">
+      <h2>Your groups</h2>
+      <button id="close-groups" class="btn-icon" aria-label="Close">×</button>
+    </div>
+    <p class="fog small">Click a group to copy its ID, then paste it into the "Group" field.</p>
+    <div id="groups-list" class="groups-list"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
