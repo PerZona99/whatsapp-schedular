@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "electron": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder --publish=never"
   },
   "dependencies": {
     "express": "^4.19.2",
@@ -19,9 +19,11 @@
     "electron": "^31.0.0",
     "electron-builder": "^24.13.3"
   },
+  "author": "Dispatch",
   "build": {
     "appId": "com.dispatch.whatsapp-scheduler",
     "productName": "Dispatch",
+    "publish": null,
     "files": [
       "electron-main.js",
       "server.js",
